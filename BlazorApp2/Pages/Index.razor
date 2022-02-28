@@ -1,0 +1,103 @@
+﻿@page "/"
+
+<PageTitle>Hádač čísel</PageTitle>
+<h1>Hádač čísel!</h1> 
+
+<div>
+<button @onclick="Reset">Reset</button>
+</div>
+<input @bind-value=hadaneCislo @bind-value:event="oninput" @onkeypress="ZmacnutiKlavesy" /> 
+
+
+<button @onclick="Hadam" class="btn btn-info">Hádám</button>
+
+@if(jeMensiVetsi){
+<div style = "background-color :green">
+    
+    @status
+</div>
+} else if (jeVetsi){
+    <div style = "background-color :red">
+    
+    @status
+    </div>
+}
+else
+{
+        <div style = "background-color :white">
+    
+    @status
+    </div>
+}
+
+<div>
+  <h5>Klikni na modrý čtverec pro správnou odpověď</h5>
+  <div @onclick="() => odkrytaNapoveda = !odkrytaNapoveda" style="height:20px;width:20px;background-color:blue"></div>
+    @if (odkrytaNapoveda)
+    {
+     <div>   
+        Myslene cislo je: @mysleneCislo
+   </div>
+      
+    }
+</div>
+
+@code
+{
+    bool jeVetsi;
+    bool jeMensiVetsi;
+    int mysleneCislo;
+    int? hadaneCislo;
+    string status = "";
+    bool odkrytaNapoveda = false;
+
+
+    protected override void OnInitialized()
+    {
+        Reset();
+    }
+
+    void Reset()
+    {
+        Random rnd = new();
+        mysleneCislo = rnd.Next(99) + 1;//1-100
+        status = "Hadej cislo!";
+    }
+
+
+    void Hadam()
+    {
+        jeVetsi = hadaneCislo > mysleneCislo;
+        jeMensiVetsi = hadaneCislo < mysleneCislo;
+        string mensi_vetsi = hadaneCislo < mysleneCislo ? "mensi" : "vetsi";
+        if (hadaneCislo != mysleneCislo)
+        {
+            status = $"Hadane cislo {hadaneCislo} je {mensi_vetsi} nez myslene cislo! Hadej dal";
+          
+        }
+        else
+        {
+            status = "uhadl jsi cislo, zmackni reset na novou hru";
+        } 
+    }
+
+  
+
+    void ZmacnutiKlavesy(KeyboardEventArgs args)
+    {
+        if (args.Key == "Enter")
+        {
+            Hadam();
+            hadaneCislo = null;
+        }
+
+        if (args.Key == "n")
+        {
+            Reset();   
+            hadaneCislo = null;
+        }
+        
+    }
+
+
+}
