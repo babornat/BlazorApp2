@@ -42,6 +42,15 @@ else
     }
 </div>
 
+<h3>Seznam hadanych cisel</h3>
+
+    @foreach (var s in seznamCisel)
+        {
+            <tr>
+                @s
+            </tr>
+        }
+
 @code
 {
     bool jeVetsi;
@@ -50,7 +59,8 @@ else
     int? hadaneCislo;
     string status = "";
     bool odkrytaNapoveda = false;
-
+    List<int> seznamCisel = new List<int>();
+    
 
     protected override void OnInitialized()
     {
@@ -62,6 +72,8 @@ else
         Random rnd = new();
         mysleneCislo = rnd.Next(99) + 1;//1-100
         status = "Hadej cislo!";
+        seznamCisel = new List<int>();
+       
     }
 
 
@@ -70,15 +82,20 @@ else
         jeVetsi = hadaneCislo > mysleneCislo;
         jeMensiVetsi = hadaneCislo < mysleneCislo;
         string mensi_vetsi = hadaneCislo < mysleneCislo ? "mensi" : "vetsi";
+
+                int s = hadaneCislo.Value;
+            seznamCisel.Add(s); 
+
         if (hadaneCislo != mysleneCislo)
         {
             status = $"Hadane cislo {hadaneCislo} je {mensi_vetsi} nez myslene cislo! Hadej dal";
-          
+
         }
         else
         {
             status = "uhadl jsi cislo, zmackni reset na novou hru";
         } 
+          
     }
 
   
