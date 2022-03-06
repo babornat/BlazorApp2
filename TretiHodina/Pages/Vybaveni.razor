@@ -4,9 +4,7 @@
 <PageTitle>Vybavení nemocnice</PageTitle>
 
 <h1>Vybavení nemocnice</h1>
-     
-
-
+    
 
 @if (vybaveniModels == null )
 {
@@ -29,26 +27,48 @@ else
            
             @foreach (var vybaveniModel in vybaveniModels)
             {
-               
-                <tr >
-
+                 @if( @vybaveniModel.NeedsRevision(vybaveniModel.LastRevisionDate)){
+                <tr class = "rowRevision" style = " background-color: #dc142c" >
+                 
                     <td>@vybaveniModel.Name</td>
                     <td>@vybaveniModel.BoughtDate.ToShortDateString()</td>
                     <td>@vybaveniModel.LastRevisionDate.ToShortDateString()</td>
                       @if (@vybaveniModel.NeedsRevision(vybaveniModel.LastRevisionDate))
                     { 
-                    <td style = "background-color:red" > ANO</td> 
+                    <td > ANO</td> 
                   
                     } else {
                     <td>NE</td>}
-                  @*  <td @onload="vybaveniModel.Revize" style = "background-color: red">
-                        @vybaveniModel.NeedsRevision</td>*@
+                
                    <td><button style="background-color:red" @onclick = "@(() => seznam.Remove(vybaveniModel))">Smazat</button></td>
              
                     <td><button style="background-color:lightblue" @onclick="@(() => Revize(seznam.IndexOf(vybaveniModel)))">Provést revizi</button></td>
-               </tr>
-               
-            }
+                    </tr>
+                }
+                else
+                {  <tr class = "rowRevision" style = " background-color: #ffffff" >
+                    
+                    <td>@vybaveniModel.Name</td>
+                    <td>@vybaveniModel.BoughtDate.ToShortDateString()</td>
+                    <td>@vybaveniModel.LastRevisionDate.ToShortDateString()</td>
+
+                    @if (@vybaveniModel.NeedsRevision(vybaveniModel.LastRevisionDate))
+                    {
+                        <td> ANO</td>                       
+                       
+                    } else {
+                        <td>NE</td>
+                        
+                    }  
+                     <td><button style="background-color:red" @onclick = "@(() => seznam.Remove(vybaveniModel))">Smazat</button></td>
+             
+                    <td><button style="background-color:lightblue" @onclick="@(() => Revize(seznam.IndexOf(vybaveniModel)))">Provést revizi</button></td>
+                   
+
+                    </tr> 
+                }
+
+        }
         </tbody>
     </table>
 }
