@@ -1,4 +1,4 @@
-﻿@page "/vybaveni"
+@page "/vybaveni"
 @inject HttpClient Http
 
 <PageTitle>Vybavení nemocnice</PageTitle>
@@ -43,11 +43,9 @@ else
                     <td>NE</td>}
                   @*  <td @onload="vybaveniModel.Revize" style = "background-color: red">
                         @vybaveniModel.NeedsRevision</td>*@
-                   <td><button style="background-color:red" @onclick = "@(() => List<Vybaveni.VybaveniModel>.Remove(Vybaveni.VybaveniModel))">Smazat</button></td>
-                   
-                 
-                    
-                    <td><button style="background-color:lightblue" @onclick="@(() => Revize(VybaveniModel(vybaveniModels)))">Provést revizi</button></td>
+                   <td><button style="background-color:red" @onclick = "@(() => seznam.Remove(vybaveniModel))">Smazat</button></td>
+             
+                    <td><button style="background-color:lightblue" @onclick="@(() => Revize(seznam.IndexOf(vybaveniModel)))">Provést revizi</button></td>
                </tr>
                
             }
@@ -57,7 +55,9 @@ else
 
 @code {
     public VybaveniModel[]? vybaveniModels;
-   
+ 
+   List <VybaveniModel> seznam = new List<VybaveniModel>();
+    
 
     protected override async Task OnInitializedAsync()
     {
@@ -95,11 +95,11 @@ else
 
      
     }
-       public void Revize(int index)
+       void Revize(int index)
     {
         DateTime d = DateTime.Today;
         vybaveniModels[index].LastRevisionDate = d;
     }
+    
 
 }
-
