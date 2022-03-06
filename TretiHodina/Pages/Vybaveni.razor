@@ -1,0 +1,105 @@
+﻿@page "/vybaveni"
+@inject HttpClient Http
+
+<PageTitle>Vybavení nemocnice</PageTitle>
+
+<h1>Vybavení nemocnice</h1>
+     
+
+
+
+@if (vybaveniModels == null )
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Název</th>
+                <th>Datum nákupu</th>
+                <th>Datum poslední revize</th>
+                <th>Potřebuje revizi?</th>
+                 <th></th>
+                  <th> </th>
+            </tr>
+        </thead>
+        <tbody>
+           
+            @foreach (var vybaveniModel in vybaveniModels)
+            {
+               
+                <tr >
+
+                    <td>@vybaveniModel.Name</td>
+                    <td>@vybaveniModel.BoughtDate.ToShortDateString()</td>
+                    <td>@vybaveniModel.LastRevisionDate.ToShortDateString()</td>
+                      @if (@vybaveniModel.NeedsRevision(vybaveniModel.LastRevisionDate))
+                    { 
+                    <td style = "background-color:red" > ANO</td> 
+                  
+                    } else {
+                    <td>NE</td>}
+                  @*  <td @onload="vybaveniModel.Revize" style = "background-color: red">
+                        @vybaveniModel.NeedsRevision</td>*@
+                   <td><button style="background-color:red" @onclick = "@(() => List<Vybaveni.VybaveniModel>.Remove(Vybaveni.VybaveniModel))">Smazat</button></td>
+                   
+                 
+                    
+                    <td><button style="background-color:lightblue" @onclick="@(() => Revize(VybaveniModel(vybaveniModels)))">Provést revizi</button></td>
+               </tr>
+               
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    public VybaveniModel[]? vybaveniModels;
+   
+
+    protected override async Task OnInitializedAsync()
+    {
+        vybaveniModels = await Http.GetFromJsonAsync<VybaveniModel[]>("sample-data/vybaveni.json");
+    }
+
+    public class VybaveniModel
+    {
+       
+         static  Random random = new Random();
+        const string chars = "abcdefghijklmnopqrstuvwxyz";
+       public  string Name = new string(Enumerable.Repeat(chars, 9).Select(s => s[random.Next(s.Length)]).ToArray());
+
+        public DateTime BoughtDate { get; set; }
+
+        public DateTime LastRevisionDate { get; set; }
+
+        //public bool NeedsRevision = false;
+ 
+         public bool NeedsRevision( DateTime LastRevisionDate)
+    {
+       bool n = LastRevisionDate.Year <= 2020 ? true : false;
+        return n;
+    }
+
+   
+        //public void Revize() {
+
+
+        //    if (LastRevisionDate != DateTime.Now )
+        //    {
+        //        NeedsRevision = true;
+        //    }
+        //}
+
+     
+    }
+       public void Revize(int index)
+    {
+        DateTime d = DateTime.Today;
+        vybaveniModels[index].LastRevisionDate = d;
+    }
+
+}
+
