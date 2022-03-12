@@ -5,6 +5,8 @@ VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TretiHodina", "TretiHodina\TretiHodina.csproj", "{A880A54D-DD1C-4BB7-A6D8-59007B8900F1}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PptNemocnice.Shared", "PptNemocnice.Shared\PptNemocnice.Shared.csproj", "{5996BDBC-0A84-4D24-8002-08D029887E8E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{A880A54D-DD1C-4BB7-A6D8-59007B8900F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A880A54D-DD1C-4BB7-A6D8-59007B8900F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A880A54D-DD1C-4BB7-A6D8-59007B8900F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5996BDBC-0A84-4D24-8002-08D029887E8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5996BDBC-0A84-4D24-8002-08D029887E8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5996BDBC-0A84-4D24-8002-08D029887E8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5996BDBC-0A84-4D24-8002-08D029887E8E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
