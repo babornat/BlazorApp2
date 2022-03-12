@@ -1,0 +1,87 @@
+﻿@page "/vybaveni"
+@using PptNemocnice.Shared
+
+<PageTitle>Vybaveni nemocnice</PageTitle>
+
+<h3>Vybaveni Nemocnice:</h3>
+
+<table class="table">
+        <thead>
+            <tr>
+                <th>Název</th>
+                <th>Datum nákupu</th>
+                <th>Datum poslední revize</th>
+                <th>Je potřeba revize?</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+        @if (mujSeznam == null )
+{
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
+            @foreach (var seznam in mujSeznam)
+            {
+                @if (@zkontrolovatRevize(seznam.LastRevisionDate))
+                {
+                    <VybaveniRow Item=seznam DeleteItemCallback="() => mujSeznam.Remove(seznam)" />
+                }
+
+            }
+            }
+        </tbody>
+    </table>
+
+
+
+@code {
+
+    List <vybaveniModel> mujSeznam = new List<vybaveniModel>();
+
+      void Revize(int index)
+    {
+        DateTime d = DateTime.Today;
+        mujSeznam[index].LastRevisionDate = d;
+    }
+
+    bool zkontrolovatRevize(DateTime revisionDate)
+    {
+        bool b = revisionDate.Year <= 2020 ? true : false;
+        return b;
+    }
+
+    protected override void OnInitialized(){
+
+
+     for (int i = 0; i < 9; i++)
+        {
+            Random random = new Random();
+             Random gen = new Random();
+              Random genn = new Random();
+
+            const string chars = "abcdefghijklmnopqrstuvwzyx";
+            string name = new string(Enumerable.Repeat(chars, 5).Select(s => s[random.Next(s.Length)]).ToArray());       
+
+            DateTime start_bought = new DateTime(2003, 1, 1);
+            int range_bought = (DateTime.Today - start_bought).Days;           
+            DateTime bought = start_bought.AddDays(gen.Next(range_bought));
+
+            DateTime start_revision = new DateTime(2013, 1, 1);
+            int range_revision = (DateTime.Today - start_revision).Days;           
+            DateTime revision = start_revision.AddDays(genn.Next(range_revision));
+
+            bool n = zkontrolovatRevize(revision);
+
+            vybaveniModel vybaveni = new vybaveniModel(name, bought, revision, n);
+            mujSeznam.Add(vybaveni);
+        }
+
+    }
+
+  
+
+}
