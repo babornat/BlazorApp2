@@ -24,12 +24,10 @@
         }
         else
         {
-            @foreach (var seznam in mujSeznam)
+            @foreach (var item in mujSeznam)
             {
-                @if (@zkontrolovatRevize(seznam.LastRevisionDate))
-                {
-                    <VybaveniRow Item=seznam DeleteCallback="() => mujSeznam.Remove(seznam)" />
-                }
+                    <VybaveniRow Item=item DeleteCallback="() => mujSeznam.Remove(item)" />
+                
 
             }
             }
@@ -40,19 +38,14 @@
 
 @code {
 
-    List <vybaveniModel> mujSeznam = new List<vybaveniModel>();
+    List <VybaveniModel> mujSeznam = new List<VybaveniModel>();
 
-      void Revize(int index)
-    {
-        DateTime d = DateTime.Today;
-        mujSeznam[index].LastRevisionDate = d;
-    }
-
-    bool zkontrolovatRevize(DateTime revisionDate)
-    {
-        bool b = revisionDate.Year <= 2020 ? true : false;
-        return b;
-    }
+  
+    //bool zkontrolovatRevize(DateTime revisionDate)
+    //{
+    //    bool b = revisionDate.Year <= 2020 ? true : false;
+    //    return b;
+    //}
 
     protected override void OnInitialized(){
 
@@ -74,9 +67,7 @@
             int range_revision = (DateTime.Today - start_revision).Days;           
             DateTime revision = start_revision.AddDays(genn.Next(range_revision));
 
-            bool n = zkontrolovatRevize(revision);
-
-            vybaveniModel vybaveni = new vybaveniModel(name, bought, revision, n);
+            VybaveniModel vybaveni = new VybaveniModel(name, bought, revision);
             mujSeznam.Add(vybaveni);
         }
 

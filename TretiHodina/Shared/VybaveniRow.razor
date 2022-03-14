@@ -3,114 +3,45 @@
   @if (Item == null) return;
                 @if (Item.IsInEditMode == false)
                 {
-    @if (@zkontrolovatRevize(Item.LastRevisionDate))
-
-    {
-        <tr class = "rowRevision" style = " background-color: #dc142c">
+    
+        <tr class="@(Item.NeedRevision?"bg-red-300":"")">
             <td>@Item.Name</td>
             <td>@Item.BoughtDate.ToShortDateString()</td>    
             <td>@Item.LastRevisionDate.ToShortDateString()</td>
-            
-              @if (@zkontrolovatRevize(Item.LastRevisionDate))
-                        {
-                            <td >ANO</td>
-                        }
-                        else
-                        {
-                            <td>NE</td>
-                        }
+             <td>@(Item.NeedRevision?"Ano":"Ne")</td>
+              
 
             <td class="flex gap-1">
-                <td><button style="background-color:red" @onclick = "@(() => DeleteCallback.InvokeAsync())">Smazat</button></td>
+                <td><button class="bg-danger rounded-sm text-sm px-2 py-1" @onclick = "@(() => DeleteCallback.InvokeAsync())">Smazat</button></td>
 
-                <td><button style="background-color:blue" @onclick="() => Item.LastRevisionDate = DateTime.Now">Provést revizi</button></td>
+                <td><button class="bg-primary rounded-sm text-sm px-2 py-1" @onclick="() => Item.LastRevisionDate = DateTime.Now">Provést revizi</button></td>
                
-                <td><button @onclick = "() => Item.IsInEditMode = true" class="bg-yellow-400 rounded-sm text-sm px-2 py-1">🛠</button></td>
+                <td><button @onclick = "() => Item.IsInEditMode = true" class="bg-light border rounded-sm text-sm px-2 py-1">🛠</button></td>
             </td>
         </tr>
-    }
-    else
-    {
-                       <tr class = "rowRevision" style = " background-color: #ffffff" >
-                    
-                        <td>@Item.Name</td>
-                        <td>@Item.BoughtDate.ToShortDateString()</td>
-                        <td>@Item.LastRevisionDate.ToShortDateString()</td>
-                         @if (@zkontrolovatRevize(Item.LastRevisionDate))
-                        {
-                            <td >ANO</td>
-                        }
-                        else
-                        {
-                            <td>NE</td>
-                        }
-
-                        <td class="flex gap-1">
-                <td><button style="background-color:red" @onclick = "@(() => DeleteCallback.InvokeAsync())">Smazat</button></td>
-
-                <td><button style="background-color:blue" @onclick="() => Item.LastRevisionDate = DateTime.Now">Provést revizi</button></td>
-               
-                <td><button @onclick = "() => Item.IsInEditMode = true" class="bg-yellow-400 rounded-sm text-sm px-2 py-1">🛠</button></td>
-            </td>
-                         </tr>
-    }
+   
 
 } else
 {
-    @if (@zkontrolovatRevize(Item.LastRevisionDate))
-
-    {
+    
         <tr class = "rowRevision" style = " background-color: #dc142c">
             <td><input @bind-value=Item.Name/></td>
             <td><input type="date" @bind-value=Item.BoughtDate/></td>    
             <td><input type="date" @bind-value=Item.LastRevisionDate/></td>
-            @if (@zkontrolovatRevize(Item.LastRevisionDate))
-            {
-                <td> ANO</td>
-            }
-            else
-            {
-                <td>NE</td>
-
-            } 
+             <td>@(Item.NeedRevision?"Ano":"Ne")</td>
 
                         <td class="flex gap-1">
-                        <button @onclick="() => Item.IsInEditMode = false" class="bg-green-400 rounded-sm text-sm px-2 py-1">Ok</button>
+                        <button @onclick="() => Item.IsInEditMode = false" class="bg-green-420 rounded-sm text-sm px-2 py-1">Ok</button>
                         </td>
                     </tr>
                 
-                }else{
-                    <tr class = "rowRevision" style = " background-color: #ffffff" >
-                    
-                   <td>@Item.Name</td>
-                        <td>@Item.BoughtDate.ToShortDateString()</td>
-                        <td>@Item.LastRevisionDate.ToShortDateString()</td>
-
-                           @if (@zkontrolovatRevize(Item.LastRevisionDate))
-                    {
-                        <td> ANO</td>                       
-                       
-                    } else {
-                        <td>NE</td>
-                        
-                    }  
-                    <td class="flex gap-1">
-                        <button @onclick="() => Item.IsInEditMode = false" class="bg-green-400 rounded-sm text-sm px-2 py-1">Ok</button>
-                        </td>
-                    </tr> 
-
                 }
-                }
+                
 
 
 @code {
-     [Parameter] public PptNemocnice.Shared.vybaveniModel? Item { get; set; }
+     [Parameter] public PptNemocnice.Shared.VybaveniModel? Item { get; set; }
 
-    [Parameter] public EventCallback<PptNemocnice.Shared.vybaveniModel> DeleteCallback { get; set; }
-    bool zkontrolovatRevize(DateTime revisionDate)
-    {
-        bool b = revisionDate.Year <= 2020 ? true : false;
-        return b;
-    }
-  
+    [Parameter] public EventCallback<PptNemocnice.Shared.VybaveniModel> DeleteCallback { get; set; }
+    
 }
